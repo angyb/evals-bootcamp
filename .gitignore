@@ -1,4 +1,5 @@
 # Added by Braintrust Wizard
+.env
 .env.braintrust
 .braintrust.json
 .venv/
