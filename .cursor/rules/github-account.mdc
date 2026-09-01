@@ -1,0 +1,17 @@
+---
+description: Use the angyb GitHub account for this repo
+alwaysApply: true
+---
+
+# GitHub account for evals-bootcamp
+
+This repo is owned by **angyb** (`https://github.com/angyb/evals-bootcamp`).
+
+When running git or GitHub CLI commands here (push, pull, PRs, etc.):
+
+1. Use the **angyb** GitHub account, not AngyBrooksZ.
+2. Before pushing, confirm the active account: `gh auth status`
+3. If needed, switch: `gh auth switch --user angyb`
+4. Configure git credentials for that account: `gh auth setup-git`
+
+Remote: `https://github.com/angyb/evals-bootcamp.git`
