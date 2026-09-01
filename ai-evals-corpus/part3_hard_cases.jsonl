@@ -1,3 +1,0 @@
-{"input": "My laptop screen flickers when I use your app in Chrome. Is this a hardware issue or a software bug?", "ground_truth": "bug_report"}
-{"input": "I love the product but the pricing is confusing. Can someone explain the tiers?", "ground_truth": "sales_inquiry"}
-{"input": "Your AI assistant told me to delete my system32 folder. Now my computer won't start.", "ground_truth": "bug_report"}
