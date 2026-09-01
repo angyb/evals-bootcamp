@@ -34,6 +34,7 @@ from pathlib import Path
 from textwrap import dedent
 
 import braintrust
+from braintrust import traced
 
 logger = braintrust.init_logger(project="evals-bootcamp")
 braintrust.auto_instrument()
@@ -1214,4 +1215,16 @@ print(f"Wrote {len(SAFETY_CASES)} safety cases to safety_cases.jsonl")
 print(f"Wrote {len(SMOKE)} smoke-test rows to pre_course_smoke.jsonl")
 print(f"Wrote knowledge_base.md, README.md, and 6 templates in templates/")
 
+
+@traced
+def log_generation_summary():
+    return {
+        "traces": len(TRACES),
+        "labels": len(LABEL_ROWS[:20]),
+        "safety_cases": len(SAFETY_CASES),
+        "smoke": len(SMOKE),
+    }
+
+
+log_generation_summary()
 logger.flush()
