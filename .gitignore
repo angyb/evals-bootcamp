@@ -2,3 +2,4 @@
 .env.braintrust
 .braintrust.json
 .venv/
+.DS_Store

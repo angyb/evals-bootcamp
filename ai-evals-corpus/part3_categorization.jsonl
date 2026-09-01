@@ -1,0 +1,5 @@
+{"input": "I was charged twice for my subscription this month. I need a refund immediately.", "ground_truth": "billing"}
+{"input": "How do I export my data to CSV?", "ground_truth": "how_to"}
+{"input": "Your app crashed and I lost 3 hours of work. I'm considering canceling.", "ground_truth": "bug_report"}
+{"input": "Can you add dark mode?", "ground_truth": "feature_request"}
+{"input": "What's the best restaurant in Cleveland?", "ground_truth": "other"}

@@ -1,0 +1,200 @@
+================================================================
+JUDGE PROMPT TEMPLATE  ·  AI Evals Bootcamp Week 2
+================================================================
+
+The shell is the same for every judge you will ever write.
+The rubric changes. The shell does not.
+
+If you find yourself editing the structure below instead of the
+rubric, you are avoiding the actual work.
+
+----------------------------------------------------------------
+TWO KINDS OF PLACEHOLDER. Do not mix them up.
+----------------------------------------------------------------
+
+  [SQUARE BRACKETS]   You replace these by hand, once, before you run.
+                      This is your rubric.
+
+  {{item.field}}      The eval harness fills these in at runtime, once
+                      per row of your dataset. Leave them exactly as
+                      written. These match the OpenAI Evals dashboard
+                      variable syntax and the corpus trace schema in
+                      traces.jsonl (input, retrieved_context, output).
+
+If your dataset uses different field names, change the {{item.x}}
+names to match your columns. Change nothing else.
+
+================================================================
+PIECE 1 OF 4  ·  SYSTEM PROMPT  (your rubric, verbatim)
+================================================================
+
+You are grading a single response from a customer support agent.
+
+You are not being helpful. You are not rewriting the response.
+You are answering one binary question about it, and nothing else.
+
+THE QUESTION
+[State the pass/fail question in ten words or fewer.]
+[Example: Does the response quote a refund window that appears in a retrieved chunk?]
+
+DEFINITION
+A response counts as FAIL when [two or three sentences of concrete
+criteria. Be specific about what you can see in the text. Do not use
+the words "quality", "good", "appropriate", or "correct" without
+saying what they mean here.]
+
+One edge case up front: [name the case that will come up most often
+and say which way it goes.]
+
+OUT OF SCOPE
+Do not fail a response for [list what this judge is NOT looking at.
+Tone, formatting, length, and anything else another judge owns.]
+If the only problem is out of scope, the answer is PASS.
+
+================================================================
+PIECE 2 OF 4  ·  IN-RUBRIC EXAMPLES  (two to three pairs,
+                 reasoning shown)
+================================================================
+
+EXAMPLE 1 (PASS)
+  Retrieved context: [short]
+  Response: [short]
+  Answer: PASS — [one sentence saying which span you checked and why it passes.]
+
+EXAMPLE 2 (FAIL)
+  Retrieved context: [short]
+  Response: [short]
+  Answer: FAIL — [one sentence saying which span you checked and why it fails.]
+
+EXAMPLE 3 (the edge case, optional but recommended)
+  Retrieved context: [short]
+  Response: [short]
+  Answer: [PASS or FAIL] — [one sentence. This example is here to settle
+  the argument you keep having with yourself. If you do not have that
+  argument yet, you will after ten items. Come back and add it.]
+
+================================================================
+PIECE 3 OF 4  ·  INPUT / OUTPUT PAIR  (the thing being graded)
+================================================================
+
+Now grade this one.
+
+USER MESSAGE:
+{{item.input}}
+
+RETRIEVED CONTEXT AVAILABLE TO THE AGENT:
+{{item.retrieved_context}}
+
+AGENT RESPONSE:
+{{item.output}}
+
+================================================================
+PIECE 4 OF 4  ·  THE ASK  (one word plus one sentence)
+================================================================
+
+Return exactly one line.
+
+The line starts with PASS or FAIL, in capitals, then a space, then
+an em dash, then a space, then one sentence of reasoning.
+
+Format:  PASS — [one sentence]
+         FAIL — [one sentence]
+
+Your sentence must point at a specific span of the response. If you
+cannot point at a span, you do not have a finding.
+
+No preamble. No markdown. No bullet points. No second line.
+
+
+================================================================
+WORKED EXAMPLE  ·  HALLUCINATED POLICY JUDGE  v1
+================================================================
+Filled in against the sample corpus so you can see the shape.
+This is the judge built on-screen during the Week 2 session.
+Copy it, then throw it away and write your own.
+----------------------------------------------------------------
+
+You are grading a single response from a customer support agent.
+
+You are not being helpful. You are not rewriting the response.
+You are answering one binary question about it, and nothing else.
+
+THE QUESTION
+Does every policy figure in the response appear in a retrieved chunk?
+
+DEFINITION
+A response counts as FAIL when it states a specific policy figure, a
+refund window, a price, a time limit, an eligibility rule, that does
+not appear in any retrieved chunk, or that contradicts a figure that
+does. A figure counts as stated whether it is quoted, paraphrased, or
+implied as fact. Vague language with no figure attached is not a fail.
+
+One edge case up front: if the response states a figure that matches a
+chunk AND a second figure that does not, that is a FAIL. One
+ungrounded figure is enough.
+
+OUT OF SCOPE
+Do not fail a response for tone, length, formatting, whether it asked a
+follow-up question, or whether the agent should have escalated. If the
+only problem is out of scope, the answer is PASS.
+
+EXAMPLE 1 (PASS)
+  Retrieved context: "KB §2: Refunds within 30 days for any reason."
+  Response: "You are within the 30-day refund window if you would like
+  the $19 refunded."
+  Answer: PASS — the 30-day figure matches KB §2 and the $19 matches
+  the account lookup, so both figures are grounded.
+
+EXAMPLE 2 (FAIL)
+  Retrieved context: "KB §2: Refunds within 30 days for any reason."
+  Response: "Our 60-day satisfaction guarantee has you covered."
+  Answer: FAIL — the response states a 60-day guarantee and the only
+  retrieved figure is 30 days, so it contradicts the chunk.
+
+EXAMPLE 3 (the edge case)
+  Retrieved context: "KB §2: Refunds within 30 days for any reason."
+  Response: "You are inside the 30-day window, and refunds land in 3 to
+  5 business days."
+  Answer: FAIL — the 30-day figure is grounded but the 3-to-5-day
+  processing time appears in no chunk, and one ungrounded figure is
+  enough.
+
+Now grade this one.
+
+USER MESSAGE:
+{{item.input}}
+
+RETRIEVED CONTEXT AVAILABLE TO THE AGENT:
+{{item.retrieved_context}}
+
+AGENT RESPONSE:
+{{item.output}}
+
+Return exactly one line.
+
+The line starts with PASS or FAIL, in capitals, then a space, then
+an em dash, then a space, then one sentence of reasoning.
+
+Format:  PASS — [one sentence]
+         FAIL — [one sentence]
+
+Your sentence must point at a specific span of the response. If you
+cannot point at a span, you do not have a finding.
+
+No preamble. No markdown. No bullet points. No second line.
+
+================================================================
+BEFORE YOU RUN
+================================================================
+
+  [ ] The question is ten words or fewer.
+  [ ] The definition says what you can SEE, not what is "good".
+  [ ] Out of scope is filled in. An empty out-of-scope section is the
+      single most common reason a judge fails everything.
+  [ ] Two examples minimum, one per side, reasoning shown.
+  [ ] {{item.x}} names match your dataset columns.
+  [ ] Ten items loaded. Roughly half you expect to pass.
+
+Version this file every time you change the rubric. v1, v2, v3.
+Your "when to trust me" doc has to say which version the numbers
+came from, and the numbers are only true for that version.

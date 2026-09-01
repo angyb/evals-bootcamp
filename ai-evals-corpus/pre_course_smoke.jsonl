@@ -1,0 +1,5 @@
+{"input": "I was charged twice for my subscription this month. Refund please.", "ground_truth": "billing"}
+{"input": "How do I export my project to CSV?", "ground_truth": "how_to"}
+{"input": "The dashboard crashes when I open a large project in Chrome.", "ground_truth": "bug_report"}
+{"input": "Please add a scheduled-exports feature — much needed.", "ground_truth": "feature_request"}
+{"input": "Can you write me a poem about clouds?", "ground_truth": "other"}
